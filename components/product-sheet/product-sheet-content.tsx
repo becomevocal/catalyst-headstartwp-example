@@ -1,11 +1,11 @@
 'use client';
 
-import { Rating } from '@bigcommerce/components/rating';
 import { Loader2 as Spinner } from 'lucide-react';
 import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useId, useState } from 'react';
 
+import { Rating } from '@bigcommerce/components/rating';
 import { getProduct } from '~/client/queries/get-product';
 import { ProductForm } from '~/components/product-form';
 import { cn } from '~/lib/utils';
@@ -14,7 +14,7 @@ export const ProductSheetContent = () => {
   const summaryId = useId();
 
   const searchParams = useSearchParams();
-  const productId = searchParams.get('showQuickAdd');
+  const productId = searchParams?.get('showQuickAdd');
 
   const [isError, setError] = useState(false);
   const [product, setProduct] = useState<Awaited<ReturnType<typeof getProduct>>>(null);
@@ -30,8 +30,8 @@ export const ProductSheetContent = () => {
       }
 
       try {
-        const paramsString = searchParams.toString();
-        const queryString = `${paramsString.length ? '?' : ''}${paramsString}`;
+        const paramsString = searchParams?.toString();
+        const queryString = `${paramsString?.length ? '?' : ''}${paramsString ?? ''}`;
 
         const url = `/api/product/${productId}${queryString}`;
 

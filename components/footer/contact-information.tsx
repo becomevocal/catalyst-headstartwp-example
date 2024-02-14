@@ -1,11 +1,15 @@
 import { Fragment } from 'react';
 
 import { getStoreSettings } from '~/client/queries/get-store-settings';
+import { ExistingResultType } from '~/client/util';
 
-export const ContactInformation = async () => {
-  const settings = await getStoreSettings();
-  const contact = settings?.contact;
+type Contact = ExistingResultType<typeof getStoreSettings>['contact'];
 
+interface Props {
+  contact: Contact;
+}
+
+export const ContactInformation = ({ contact }: Props) => {
   if (!contact) {
     return null;
   }
@@ -21,10 +25,7 @@ export const ContactInformation = async () => {
         ))}
       </address>
       {contact.phone ? (
-        <a
-          className="hover:text-blue-primary focus:outline-none focus:ring-4 focus:ring-blue-primary/20"
-          href={`tel:${contact.phone}`}
-        >
+        <a href={`tel:${contact.phone}`}>
           <p>{contact.phone}</p>
         </a>
       ) : null}

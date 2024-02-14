@@ -1,5 +1,9 @@
 'use client';
 
+import { Loader2 as Spinner } from 'lucide-react';
+import { ChangeEvent, useState } from 'react';
+import { useFormState, useFormStatus } from 'react-dom';
+
 import { Button } from '@bigcommerce/components/button';
 import {
   Field,
@@ -11,10 +15,6 @@ import {
 } from '@bigcommerce/components/form';
 import { Input } from '@bigcommerce/components/input';
 import { Message } from '@bigcommerce/components/message';
-import { Loader2 as Spinner } from 'lucide-react';
-import { ChangeEvent, useState } from 'react';
-import { useFormState, useFormStatus } from 'react-dom';
-
 import { Link } from '~/components/link';
 
 import { submitLoginForm } from '../_actions/submit-login-form';

@@ -1,8 +1,8 @@
-import { Button } from '@bigcommerce/components/button';
-import { Rating } from '@bigcommerce/components/rating';
 import Image from 'next/image';
 import * as z from 'zod';
 
+import { Button } from '@bigcommerce/components/button';
+import { Rating } from '@bigcommerce/components/rating';
 import { getProducts } from '~/client/queries/get-products';
 import { Link } from '~/components/link';
 import { Pricing } from '~/components/pricing';

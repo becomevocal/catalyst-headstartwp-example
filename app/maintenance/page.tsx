@@ -27,7 +27,7 @@ export default async function MaintenancePage() {
 
   return (
     <Container>
-      <StoreLogo />
+      <StoreLogo settings={storeSettings} />
 
       <h1 className="my-8 text-4xl font-black lg:text-5xl">We are down for maintenance</h1>
 

@@ -1,5 +1,3 @@
-import { cache } from 'react';
-
 import { client } from '..';
 import { graphql } from '../generated';
 
@@ -36,9 +34,9 @@ export const GET_STORE_SETTINGS_QUERY = /* GraphQL */ `
   }
 `;
 
-export const getStoreSettings = cache(async () => {
+export const getStoreSettings = async () => {
   const query = graphql(GET_STORE_SETTINGS_QUERY);
   const response = await client.fetch({ document: query });
 
   return response.data.site.settings;
-});
+};

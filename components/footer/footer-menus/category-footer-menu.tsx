@@ -1,10 +1,15 @@
 import { getCategoryTree } from '~/client/queries/get-category-tree';
+import { ExistingResultType } from '~/client/util';
 
 import { BaseFooterMenu } from './base-footer-menu';
 
-export const CategoryFooterMenu = async () => {
-  const categoryTree = await getCategoryTree();
+type CategoryTree = ExistingResultType<typeof getCategoryTree>;
 
+interface Props {
+  categoryTree: CategoryTree;
+}
+
+export const CategoryFooterMenu = ({ categoryTree }: Props) => {
   if (!categoryTree.length) {
     return null;
   }

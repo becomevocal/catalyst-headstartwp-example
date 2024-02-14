@@ -1,4 +1,3 @@
-import { FooterNav, FooterNavGroupList, FooterNavLink } from '@bigcommerce/components/footer';
 import {
   SiFacebook,
   SiInstagram,
@@ -8,7 +7,9 @@ import {
   SiYoutube,
 } from '@icons-pack/react-simple-icons';
 
+import { FooterNav, FooterNavGroupList, FooterNavLink } from '@bigcommerce/components/footer';
 import { getStoreSettings } from '~/client/queries/get-store-settings';
+import { ExistingResultType } from '~/client/util';
 import { Link } from '~/components/link';
 
 const socialIconNames = [
@@ -47,12 +48,16 @@ const SocialIcon = ({ name }: { name: string }) => {
   }
 };
 
-export const SocialIcons = async () => {
-  const settings = await getStoreSettings();
+type StoreSettings = ExistingResultType<typeof getStoreSettings>;
 
-  const socialMediaLinks = settings?.socialMediaLinks;
+interface Props {
+  storeSettings: StoreSettings;
+}
 
-  if (!socialMediaLinks || socialMediaLinks.length === 0) {
+export const SocialIcons = ({ storeSettings }: Props) => {
+  const socialMediaLinks = storeSettings.socialMediaLinks;
+
+  if (socialMediaLinks.length === 0) {
     return null;
   }
 
@@ -66,7 +71,7 @@ export const SocialIcons = async () => {
 
           return (
             <FooterNavLink asChild key={link.name}>
-              <Link className="inline-block" href={link.url}>
+              <Link href={link.url}>
                 <SocialIcon name={link.name} />
               </Link>
             </FooterNavLink>

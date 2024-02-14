@@ -180,6 +180,14 @@ export const withCustomUrls: MiddlewareFactory = (next) => {
         return NextResponse.rewrite(url);
       }
 
+      case 'ContactPage':
+      case 'NormalPage': {
+        const { pathname } = new URL(request.url);
+        const url = createRewriteUrl(`/bc-page${pathname}`, request);
+
+        return NextResponse.rewrite(url);
+      }
+
       default: {
         const { pathname } = new URL(request.url);
 

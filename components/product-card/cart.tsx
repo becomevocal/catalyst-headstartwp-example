@@ -1,9 +1,10 @@
 'use client';
 
-import { Button } from '@bigcommerce/components/button';
 import { AlertCircle, Check } from 'lucide-react';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { toast } from 'react-hot-toast';
+
+import { Button } from '@bigcommerce/components/button';
 
 import { Link } from '../link';
 
@@ -15,7 +16,7 @@ import { Product } from '.';
 export const Cart = ({ product }: { product: Partial<Product> }) => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const newSearchParams = new URLSearchParams(searchParams.toString());
+  const newSearchParams = new URLSearchParams(searchParams?.toString());
 
   if (!product.entityId) {
     return null;
@@ -27,7 +28,7 @@ export const Cart = ({ product }: { product: Partial<Product> }) => {
     <Button asChild>
       <Link
         className="mt-2 hover:text-white"
-        href={`${pathname}?${newSearchParams.toString()}`}
+        href={`${pathname ?? ''}?${newSearchParams.toString()}`}
         scroll={false}
       >
         Quick add

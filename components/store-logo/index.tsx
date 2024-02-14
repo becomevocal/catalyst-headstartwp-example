@@ -1,14 +1,15 @@
 import Image from 'next/image';
 
 import { getStoreSettings } from '~/client/queries/get-store-settings';
+import { ExistingResultType } from '~/client/util';
 
-export const StoreLogo = async () => {
-  const settings = await getStoreSettings();
+type StoreSettings = ExistingResultType<typeof getStoreSettings>;
 
-  if (!settings) {
-    return null;
-  }
+interface Props {
+  settings: StoreSettings;
+}
 
+export const StoreLogo = ({ settings }: Props) => {
   const { logoV2: logo, storeName } = settings;
 
   if (logo.__typename === 'StoreTextLogo') {

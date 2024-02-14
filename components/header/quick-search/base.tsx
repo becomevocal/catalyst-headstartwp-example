@@ -1,4 +1,6 @@
-'use client';
+import { Search, Loader2 as Spinner, X } from 'lucide-react';
+import Image from 'next/image';
+import { PropsWithChildren, useRef, useState } from 'react';
 
 import { Button } from '@bigcommerce/components/button';
 import { Field, FieldControl, Form } from '@bigcommerce/components/form';
@@ -8,75 +10,39 @@ import {
   SheetClose,
   SheetContent,
   SheetOverlay,
-  SheetTitle,
   SheetTrigger,
 } from '@bigcommerce/components/sheet';
-import debounce from 'lodash.debounce';
-import { Search, Loader2 as Spinner, X } from 'lucide-react';
-import Image from 'next/image';
-import { PropsWithChildren, useEffect, useRef, useState } from 'react';
-
 import { getQuickSearchResults } from '~/client/queries/get-quick-search-results';
 import { ExistingResultType } from '~/client/util';
 import { cn } from '~/lib/utils';
 
-import { Pricing } from '../pricing';
-
-import { getSearchResults } from './_actions/get-search-results';
-
-interface SearchProps extends PropsWithChildren {
-  initialTerm?: string;
-}
+import { Pricing } from '../../pricing';
 
 type SearchResults = ExistingResultType<typeof getQuickSearchResults>;
 
-const isSearchQuery = (data: unknown): data is SearchResults => {
-  if (typeof data === 'object' && data !== null && 'products' in data) {
-    return true;
-  }
+interface SearchProps extends PropsWithChildren {
+  pending: boolean;
+  searchResults: SearchResults | null;
+  query: string;
+  onQueryChange: (query: string) => void;
+}
 
-  return false;
-};
-
-const fetchSearchResults = debounce(
-  async (
-    term: string,
-    setSearchResults: React.Dispatch<React.SetStateAction<SearchResults | null>>,
-  ) => {
-    const searchResults = await getSearchResults(term);
-
-    if (isSearchQuery(searchResults)) {
-      setSearchResults(searchResults);
-    }
-  },
-  1000,
-);
-
-export const QuickSearch = ({ children, initialTerm = '' }: SearchProps) => {
-  const [term, setTerm] = useState(initialTerm);
+export const BaseQuickSearch = ({
+  children,
+  searchResults,
+  query,
+  onQueryChange,
+  pending = false,
+}: SearchProps) => {
   const [open, setOpen] = useState(false);
-  const [pending, setPending] = useState(false);
-  const [searchResults, setSearchResults] = useState<SearchResults | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  useEffect(() => {
-    if (term.length < 3) {
-      setSearchResults(null);
-    } else {
-      setPending(true);
-      void fetchSearchResults(term, setSearchResults);
-    }
-  }, [term]);
-
-  useEffect(() => {
-    setPending(false);
-  }, [searchResults]);
-
-  const handleTermChange = (e: React.FormEvent<HTMLInputElement>) => {
-    setTerm(e.currentTarget.value);
+  const handleQueryChange = (e: React.FormEvent<HTMLInputElement>) => {
+    onQueryChange(e.currentTarget.value);
   };
-  const handleTermClear = () => {
-    setTerm('');
+
+  const handleClearQuery = () => {
+    onQueryChange('');
     inputRef.current?.focus();
   };
 
@@ -98,7 +64,6 @@ export const QuickSearch = ({ children, initialTerm = '' }: SearchProps) => {
           )}
           side="top"
         >
-          <SheetTitle className="sr-only">Search bar</SheetTitle>
           <div className="grid grid-cols-5 items-center">
             <div className="me-2 hidden lg:block lg:justify-self-start">{children}</div>
             <Form
@@ -113,20 +78,20 @@ export const QuickSearch = ({ children, initialTerm = '' }: SearchProps) => {
                     aria-controls="categories products brands"
                     aria-expanded={!!searchResults}
                     className="peer appearance-none border-2 px-12 py-3"
-                    onChange={handleTermChange}
+                    onChange={handleQueryChange}
                     placeholder="Search..."
                     ref={inputRef}
                     role="combobox"
-                    value={term}
+                    value={query}
                   >
                     <InputIcon className="start-3 peer-hover:text-blue-primary peer-focus:text-blue-primary">
                       <Search />
                     </InputIcon>
-                    {term.length > 0 && !pending && (
+                    {query.length > 0 && !pending && (
                       <Button
                         aria-label="Clear search"
                         className="absolute end-1.5 top-1/2 w-auto -translate-y-1/2 border-0 bg-transparent p-1.5 text-black hover:bg-transparent hover:text-blue-primary focus:text-blue-primary peer-hover:text-blue-primary peer-focus:text-blue-primary"
-                        onClick={handleTermClear}
+                        onClick={handleClearQuery}
                         type="button"
                       >
                         <X />
@@ -250,7 +215,7 @@ export const QuickSearch = ({ children, initialTerm = '' }: SearchProps) => {
           )}
           {searchResults && searchResults.products.length === 0 && (
             <p className="pt-6">
-              No products matched with <b>"{term}"</b>
+              No products matched with <b>"{query}"</b>
             </p>
           )}
         </SheetContent>

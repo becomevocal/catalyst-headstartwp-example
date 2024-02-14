@@ -1,5 +1,4 @@
 import { removeEdgesAndNodes } from '@bigcommerce/catalyst-client';
-import { cache } from 'react';
 
 import { client } from '..';
 import { graphql } from '../generated';
@@ -38,7 +37,7 @@ export const GET_WEB_PAGES_QUERY = /* GraphQL */ `
   }
 `;
 
-export const getWebPages = cache(async () => {
+export const getWebPages = async () => {
   const query = graphql(GET_WEB_PAGES_QUERY);
 
   const response = await client.fetch({
@@ -52,4 +51,4 @@ export const getWebPages = cache(async () => {
   }
 
   return removeEdgesAndNodes(pages);
-});
+};

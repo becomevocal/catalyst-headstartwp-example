@@ -1,12 +1,12 @@
+import Image from 'next/image';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+
 import { Label } from '@bigcommerce/components/label';
 import { PickList, PickListItem } from '@bigcommerce/components/pick-list';
 import { RadioGroup, RadioItem } from '@bigcommerce/components/radio-group';
 import { RectangleList, RectangleListItem } from '@bigcommerce/components/rectangle-list';
 import { Select, SelectContent, SelectItem } from '@bigcommerce/components/select';
 import { Swatch, SwatchItem } from '@bigcommerce/components/swatch';
-import Image from 'next/image';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-
 import { getProduct } from '~/client/queries/get-product';
 import { ExistingResultType, Unpacked } from '~/client/util';
 
@@ -24,14 +24,14 @@ export const MultipleChoiceField = ({ option }: { option: MultipleChoiceOption }
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const searchParamSelected = searchParams.get(String(option.entityId));
+  const searchParamSelected = searchParams?.get(String(option.entityId));
 
   const handleOnValueChange = ({ optionId, valueId }: { optionId: number; valueId: number }) => {
-    const optionSearchParams = new URLSearchParams(searchParams.toString());
+    const optionSearchParams = new URLSearchParams(searchParams?.toString());
 
     optionSearchParams.set(String(optionId), String(valueId));
 
-    router.replace(`${pathname}?${optionSearchParams.toString()}`, { scroll: false });
+    router.replace(`${pathname ?? ''}?${optionSearchParams.toString()}`, { scroll: false });
   };
 
   const selectedValue = option.values.find((value) => value.isSelected)?.entityId.toString();

@@ -1,10 +1,7 @@
 import { Message } from '@bigcommerce/components/message';
-import { ShoppingCart } from 'lucide-react';
-
 import { getFeaturedProducts } from '~/client/queries/get-featured-products';
-import { Footer } from '~/components/footer/footer';
-import { Header } from '~/components/header';
-import { CartLink } from '~/components/header/cart';
+import { Footer } from '~/components/footer/server';
+import { Header } from '~/components/header/server';
 import { ProductCard } from '~/components/product-card';
 import { SearchForm } from '~/components/search-form';
 
@@ -17,13 +14,7 @@ export default async function NotFound() {
 
   return (
     <>
-      <Header
-        cart={
-          <CartLink>
-            <ShoppingCart aria-label="cart" />
-          </CartLink>
-        }
-      />
+      <Header />
       <main className="mx-auto mb-10 max-w-[835px] space-y-8 px-6 sm:px-10 lg:px-0">
         <Message className="flex-col gap-8 px-0 py-16">
           <h2 className="text-4xl font-black lg:text-5xl">We couldn't find that page!</h2>

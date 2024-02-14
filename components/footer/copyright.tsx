@@ -1,17 +1,13 @@
 import { ComponentPropsWithoutRef } from 'react';
 
-import { getStoreSettings } from '~/client/queries/get-store-settings';
+interface Props extends ComponentPropsWithoutRef<'p'> {
+  storeName: string;
+}
 
-export const Copyright = async (props: ComponentPropsWithoutRef<'p'>) => {
-  const settings = await getStoreSettings();
-
-  if (!settings) {
-    return null;
-  }
-
+export const Copyright = ({ storeName, ...rest }: Props) => {
   return (
-    <p className="text-gray-500 sm:order-first" {...props}>
-      © {new Date().getFullYear()} {settings.storeName} – Powered by BigCommerce
+    <p className="text-gray-500 sm:order-first" {...rest}>
+      © {new Date().getFullYear()} {storeName} – Powered by BigCommerce
     </p>
   );
 };

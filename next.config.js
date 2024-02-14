@@ -1,4 +1,5 @@
 // @ts-check
+const withMakeswift = require('@makeswift/runtime/next/plugin')();
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -22,4 +23,4 @@ const nextConfig = {
   trailingSlash: process.env.TRAILING_SLASH !== 'false',
 };
 
-module.exports = nextConfig;
+module.exports = withMakeswift(nextConfig);
