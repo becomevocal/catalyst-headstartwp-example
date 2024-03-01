@@ -85,6 +85,11 @@ export const BaseHeaderNav = ({
             )}
           </NavigationMenuItem>
         ))}
+        <NavigationMenuLink asChild>
+                      <Link className="grow" href={`/wordpress-blog`}>
+                        Chicken Posts
+                      </Link>
+                    </NavigationMenuLink>
       </NavigationMenuList>
       <NavigationMenuList
         className={cn(

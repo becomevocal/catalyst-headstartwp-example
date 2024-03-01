@@ -1,6 +1,8 @@
 // @ts-check
 const withMakeswift = require('@makeswift/runtime/next/plugin')();
 
+const { withHeadstartWPConfig } = require('@headstartwp/next/config');
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
@@ -23,4 +25,4 @@ const nextConfig = {
   trailingSlash: process.env.TRAILING_SLASH !== 'false',
 };
 
-module.exports = withMakeswift(nextConfig);
+module.exports = withHeadstartWPConfig(withMakeswift(nextConfig));

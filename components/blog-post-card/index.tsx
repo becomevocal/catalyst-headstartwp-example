@@ -21,7 +21,7 @@ export const BlogPostCard = ({ blogPost }: BlogPostCardProps) => (
   <ComponentsBlogPostCard>
     {blogPost.thumbnailImage ? (
       <BlogPostImage>
-        <Link className="block w-full" href={`/blog/${blogPost.entityId}`}>
+        <Link className="block w-full" href={`${blogPost.path}`}>
           <Image
             alt={blogPost.thumbnailImage.altText}
             className="h-full w-full object-cover object-center"
@@ -45,7 +45,7 @@ export const BlogPostCard = ({ blogPost }: BlogPostCardProps) => (
     )}
 
     <BlogPostTitle>
-      <Link href={`/blog/${blogPost.entityId}`}>{blogPost.name}</Link>
+      <Link href={`${blogPost.path}`}>{blogPost.name}</Link>
     </BlogPostTitle>
     <BlogPostContent>{blogPost.plainTextSummary}</BlogPostContent>
     <BlogPostDate>
