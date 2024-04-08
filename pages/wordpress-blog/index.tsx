@@ -21,7 +21,7 @@ const ArchivePage: FC = () => {
         <>
             <PagesHeader />
             <div className="flex-1 px-6 pb-6 2xl:container sm:px-10 lg:px-12 2xl:mx-auto 2xl:px-0">
-            <h1 className="mb-8 text-3xl font-black lg:text-5xl">Chicken Posts</h1>
+            <h1 className="mb-8 text-3xl font-black lg:text-5xl">Blog</h1>
             <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
                 {loading ? 'Loading...' : ''}
                 {error ? 'Error...' : ''}
@@ -44,10 +44,10 @@ const ArchivePage: FC = () => {
                                     .replaceAll("&#8217;","'")
                                     .replaceAll("Continue Reading","") || "",
                                 publishedDate: { utc: post.date_gmt },
-                                thumbnailImage: { 
+                                thumbnailImage: embeddedData?.['wp:featuredmedia'] ? { 
                                     altText: embeddedData?.['wp:featuredmedia']?.[0]?.alt_text,
                                     url: embeddedData?.['wp:featuredmedia']?.[0]?.source_url
-                                },
+                                } : null,
                                 seo: {
                                     metaKeywords: post?.terms?.post_tag?.map((term) => term.name).join(",") || "",
                                     metaDescription: post?.yoast_head_json?.description,
